@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ViewAllProduct from "./Components/viewAllProduct/ViewAllProduct";
+import ViewAllTask from "./Components/viewAllTasks/ViewAllTasks";
 function App() {
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<ViewAllProduct />}></Route>
+          <Route path="/" element={<ViewAllTask />}></Route>
         </Routes>
       </Router>
     </>

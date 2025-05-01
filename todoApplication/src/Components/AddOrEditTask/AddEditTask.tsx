@@ -57,7 +57,7 @@ export default function AddEditTask() {
             {...register("title")}
             type="text"
             id="input-tag"
-            placeholder="Email"
+            placeholder="Enter title"
           />
           {errors.title && (
             <div style={{ color: "red" }}>{errors.title.message}</div>
