@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import "./AddEditProduct.css";
+import "./AddEditTask.css";
 
 type StatusType = "Todo" | "In Progress" | "Done";
 
@@ -22,7 +22,7 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-export default function AddEditProduct() {
+export default function AddEditTask() {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     //add custom error setting and handling
 
