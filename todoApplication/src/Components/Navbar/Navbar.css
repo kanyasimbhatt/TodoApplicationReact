@@ -3,7 +3,7 @@
   height: 70px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
   max-width: 100vw;
   padding-right: 30px;
   padding-left: 20px;
