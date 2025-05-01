@@ -19,11 +19,3 @@
   height: 60px;
   width: 60px;
 }
-
-@media screen and (max-width: 380px) {
-  .navbar-div {
-    flex-direction: column;
-    height: 150px;
-    justify-content: center;
-  }
-}

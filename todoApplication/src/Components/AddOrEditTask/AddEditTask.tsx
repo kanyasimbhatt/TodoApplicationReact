@@ -27,8 +27,6 @@ export default function AddEditTask() {
     //add custom error setting and handling
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      throw new Error();
       console.log(data);
     } catch (err) {
       console.log(err);
