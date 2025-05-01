@@ -27,7 +27,19 @@ export default function AddEditTask() {
     //add custom error setting and handling
 
     try {
-      console.log(data);
+      if (!localStorage.getItem("tasks-array")) {
+        localStorage.setItem("tasks-array", JSON.stringify([]));
+      }
+
+      const tasks = JSON.parse(localStorage.getItem("tasks-array") as string);
+      tasks.push(data);
+      localStorage.setItem("tasks-array", JSON.stringify(tasks));
+      const inputElement = document.querySelectorAll("#input-tag");
+      inputElement.forEach((element) => {
+        if (element.className === "status-select") {
+          (element as HTMLSelectElement).selectedIndex = 0;
+        } else (element as HTMLInputElement).value = "";
+      });
     } catch (err) {
       console.log(err);
       setError("root", {
@@ -86,9 +98,13 @@ export default function AddEditTask() {
             className="status-select"
           >
             <option disabled>Select Status</option>
-            <option value={"todo"}>Todo</option>
-            <option value={"in-progress"}>In Progress</option>
-            <option value={"done"}>Done</option>
+            <option value={"Todo"}>Todo</option>
+            <option value={"In Progress"} disabled>
+              In Progress
+            </option>
+            <option value={"Done"} disabled>
+              Done
+            </option>
           </select>
         </label>
 
