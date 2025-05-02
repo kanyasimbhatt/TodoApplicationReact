@@ -1,6 +1,7 @@
 import "./showTasks.css";
 import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export type Task = {
   id: string;
@@ -11,9 +12,12 @@ export type Task = {
 
 export default function ShowTasks() {
   const { task } = useGlobalContext();
+  const navigate = useNavigate();
 
   function handleTaskEdit(event: React.MouseEvent) {
-    console.log(event);
+    if ("id" in event.target) {
+      navigate(`/add-task/${event.target!.id}`);
+    }
   }
 
   function handleTaskDelete(event: React.MouseEvent) {

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
 import "./AddEditForm.css";
+import { Task } from "../ShowTasks/ShowTasks";
 
 type StatusType = "Todo" | "In Progress" | "Done";
 
@@ -24,10 +25,12 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-export default function AddEditForm() {
+export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
   const { setTask } = useGlobalContext();
   const allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
+  const task = allTasks.find((task: Task) => task.id === taskId);
+
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     const id = crypto.randomUUID();
 
@@ -57,7 +60,9 @@ export default function AddEditForm() {
   return (
     <div>
       <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="form-title">Add Task</h2>
+        <h2 className="form-title">
+          {taskId === "" ? `Add Task` : `Edit Task`}
+        </h2>
         <label>
           {" "}
           <b>Enter Title: </b>
@@ -66,7 +71,9 @@ export default function AddEditForm() {
             {...register("title")}
             type="text"
             id="input-tag"
+            className="title"
             placeholder="Enter title"
+            value={taskId !== "" ? task.title : null}
           />
           {errors.title && (
             <div className="error-message">{errors.title.message}</div>
@@ -80,6 +87,8 @@ export default function AddEditForm() {
             {...register("description")}
             type="text"
             id="input-tag"
+            className="description"
+            value={taskId !== "" ? task.description : null}
             placeholder="Enter Description"
           />
           {errors.description && (
@@ -93,6 +102,7 @@ export default function AddEditForm() {
             {...register("status")}
             id="input-tag"
             className="status-select"
+            value={taskId !== "" ? task.status : "Todo"}
           >
             <option value={"Todo"}>Todo</option>
             <option value={"In Progress"} disabled>
@@ -105,7 +115,7 @@ export default function AddEditForm() {
         </label>
 
         <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Loading..." : "Submit"}
+          {isSubmitting ? "Loading..." : taskId === "" ? "Add" : "Edit"}
         </button>
         {errors.root && (
           <div className="error-message">{errors.root.message}</div>
