@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import "./AddEditForm.css";
 
@@ -23,6 +24,7 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm() {
+  const navigate = useNavigate();
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     try {
       if (!localStorage.getItem("tasks-array")) {
@@ -38,6 +40,8 @@ export default function AddEditForm() {
           (element as HTMLSelectElement).selectedIndex = 0;
         } else (element as HTMLInputElement).value = "";
       });
+
+      navigate("/");
     } catch (err) {
       console.log(err);
       setError("root", {
