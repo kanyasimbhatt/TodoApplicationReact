@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AddEditTask from "../AddOrEditTask/AddEditTask";
 import Navbar from "../Navbar/Navbar";
 import ShowTasks from "../ShowTasks/ShowTasks";
 import { createContext, useContext } from "react";
@@ -33,8 +32,7 @@ export default function ViewAllTask() {
   return (
     <div>
       <TaskContext.Provider value={{ task, setTask }}>
-        <Navbar />
-        <AddEditTask />
+        <Navbar buttonName="Add Task" />
         <ShowTasks />
       </TaskContext.Provider>
     </div>

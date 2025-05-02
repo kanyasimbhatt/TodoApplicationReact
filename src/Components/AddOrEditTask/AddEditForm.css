@@ -9,18 +9,27 @@
   justify-content: center;
   height: 500px;
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0);
   gap: 30px;
 }
 
 #input-tag {
   border: none;
   height: 50px;
-  min-width: 70vw;
+  min-width: 80vw;
   box-sizing: border-box;
   background-color: rgba(83, 83, 83, 0.301);
   border-radius: 5px;
   padding: 0 8px 0 8px;
+}
+
+.error-message {
+  color: red;
+}
+
+@media screen and (max-width: 640px) {
+  #input-tag {
+    min-width: 70vw;
+  }
 }
 
 @media screen and (max-width: 460px) {
