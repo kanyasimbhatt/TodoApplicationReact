@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import "./AddEditTask.css";
+import "./AddEditForm.css";
 
 type StatusType = "Todo" | "In Progress" | "Done";
 
@@ -22,10 +22,8 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-export default function AddEditTask() {
+export default function AddEditForm() {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    //add custom error setting and handling
-
     try {
       console.log(data);
     } catch (err) {
@@ -33,8 +31,6 @@ export default function AddEditTask() {
       setError("root", {
         message: "This email is already taken",
       });
-
-      //you can add root inplace of email if the error is related to the form as a whole
     }
   };
   const {
@@ -60,7 +56,7 @@ export default function AddEditTask() {
             placeholder="Enter title"
           />
           {errors.title && (
-            <div style={{ color: "red" }}>{errors.title.message}</div>
+            <div className="error-message">{errors.title.message}</div>
           )}
         </label>
         <label>
@@ -74,7 +70,7 @@ export default function AddEditTask() {
             placeholder="Enter Description"
           />
           {errors.description && (
-            <div style={{ color: "red" }}>{errors.description.message}</div>
+            <div className="error-message">{errors.description.message}</div>
           )}
         </label>
         <label>
@@ -96,7 +92,7 @@ export default function AddEditTask() {
           {isSubmitting ? "Loading..." : "Submit"}
         </button>
         {errors.root && (
-          <div style={{ color: "red" }}>{errors.root.message}</div>
+          <div className="error-message">{errors.root.message}</div>
         )}
       </form>
     </div>
