@@ -2,10 +2,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import "./AddEditTask.css";
+import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
 
 type StatusType = "Todo" | "In Progress" | "Done";
 
-const isValidValue = (val: unknown): boolean => {
+const isValidValue = (val: string): boolean => {
   if (val === "Todo" || val === "In Progress" || val === "Done") return true;
   return false;
 };
@@ -17,36 +18,25 @@ z.custom<StatusType>((val) => isValidValue(val), {
 const schema = z.object({
   title: z.string().min(5),
   description: z.string().min(10),
-  status: z.custom(),
+  status: z.string(),
 });
 
 type FormFields = z.infer<typeof schema>;
 
 export default function AddEditTask() {
+  const { task, setTask } = useGlobalContext();
+
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    //add custom error setting and handling
-
+    console.log(data);
     try {
-      if (!localStorage.getItem("tasks-array")) {
-        localStorage.setItem("tasks-array", JSON.stringify([]));
-      }
-
-      const tasks = JSON.parse(localStorage.getItem("tasks-array") as string);
-      tasks.push(data);
-      localStorage.setItem("tasks-array", JSON.stringify(tasks));
-      const inputElement = document.querySelectorAll("#input-tag");
-      inputElement.forEach((element) => {
-        if (element.className === "status-select") {
-          (element as HTMLSelectElement).selectedIndex = 0;
-        } else (element as HTMLInputElement).value = "";
-      });
+      console.log(data);
+      localStorage.setItem("tasks-array", JSON.stringify([...task, data]));
+      setTask([...task, { ...data, id: crypto.randomUUID() }]);
     } catch (err) {
       console.log(err);
       setError("root", {
-        message: "This email is already taken",
+        message: "Was not able to submit the form",
       });
-
-      //you can add root inplace of email if the error is related to the form as a whole
     }
   };
   const {
@@ -57,6 +47,7 @@ export default function AddEditTask() {
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
   });
+
   return (
     <div>
       <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
