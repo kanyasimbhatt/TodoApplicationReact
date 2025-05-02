@@ -10,14 +10,7 @@ export type TasksArrayType = {
 };
 
 const TaskContext = createContext<TasksArrayType>({
-  task: [
-    {
-      id: "",
-      title: "",
-      description: "",
-      status: "",
-    },
-  ],
+  task: [],
   setTask: () => {},
 });
 export const useGlobalContext = () => useContext(TaskContext);

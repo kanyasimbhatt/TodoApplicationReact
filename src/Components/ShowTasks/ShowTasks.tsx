@@ -1,5 +1,6 @@
 import "./showTasks.css";
 import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
+import React from "react";
 
 export type Task = {
   id: string;
@@ -19,14 +20,30 @@ export default function ShowTasks() {
     console.log(event);
   }
 
+  function handleChangeOnStatus(event: React.ChangeEvent) {
+    console.log(event);
+  }
+
   const statusOptions = ["Done", "In Progress", "Todo"];
   return (
     <div className="show-task">
+      {task.length === 0 ? (
+        <div className="header-wrapper">
+          {" "}
+          <h3>No Tasks Added yet!</h3>
+        </div>
+      ) : (
+        <></>
+      )}
       {task.map((task: Task) => (
         <div className={`card-wrapper ${task.status}`} key={task.id}>
           <div className="tasks-title">{task.title}</div>
           <div className="tasks-description">{task.description}</div>
-          <select className="options-select">
+          <select
+            className="options-select"
+            value={"Todo"}
+            onChange={handleChangeOnStatus}
+          >
             <option disabled>{task.status}</option>
             <option>
               {statusOptions[0] === task.status

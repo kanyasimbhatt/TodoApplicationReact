@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   gap: 30px;
   padding: 0 90px 0 90px;
+  margin-top: 40px;
 }
 
 .card-wrapper {
@@ -17,6 +18,12 @@
   border-radius: 20px;
   justify-content: center;
   align-items: center;
+}
+
+.header-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .Done {

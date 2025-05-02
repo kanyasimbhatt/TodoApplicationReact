@@ -2,7 +2,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-
 import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
 import "./AddEditForm.css";
 
@@ -27,12 +26,17 @@ type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm() {
   const navigate = useNavigate();
-  const { task, setTask } = useGlobalContext();
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    try {
-      localStorage.setItem("tasks-array", JSON.stringify([...task, data]));
-      setTask([...task, { ...data, id: crypto.randomUUID() }]);
+  const { setTask } = useGlobalContext();
+  const allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    const id = crypto.randomUUID();
 
+    try {
+      localStorage.setItem(
+        "tasks-array",
+        JSON.stringify([...allTasks, { ...data, id: id }])
+      );
+      setTask([...allTasks, { ...data, id: id }]);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -90,7 +94,6 @@ export default function AddEditForm() {
             id="input-tag"
             className="status-select"
           >
-            <option disabled>Select Status</option>
             <option value={"Todo"}>Todo</option>
             <option value={"In Progress"} disabled>
               In Progress
