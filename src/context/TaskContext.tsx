@@ -1,4 +1,4 @@
-import { Task } from "../Components/ShowTasks/ShowTasks";
+import { Task } from "../types/types";
 import { createContext } from "react";
 export type TasksArrayType = {
   tasks: Task[];

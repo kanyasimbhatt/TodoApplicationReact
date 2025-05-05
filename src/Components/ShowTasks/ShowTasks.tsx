@@ -4,13 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import FilterTask from "../FilterTasks/FilterTask";
 import { useForm } from "react-hook-form";
-
-export type Task = {
-  id: string;
-  title: string;
-  description: string;
-  status: string;
-};
+import { Task } from "../../types/types";
 
 export type FilterElement = {
   searchByTitle: string;

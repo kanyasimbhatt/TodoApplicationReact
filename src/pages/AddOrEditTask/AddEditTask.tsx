@@ -1,5 +1,5 @@
-import Navbar from "../Navbar/Navbar";
-import AddEditForm from "./AddEditForm";
+import Navbar from "../../Components/Navbar/Navbar";
+import AddEditForm from "../../Components/AddOrEditTask/AddEditForm";
 import { useParams } from "react-router-dom";
 
 export default function AddEditTask() {

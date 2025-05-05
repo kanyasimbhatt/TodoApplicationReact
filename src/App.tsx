@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ViewAllTask from "./Components/viewAllTasks/ViewAllTasks";
-import AddEditTask from "./Components/AddOrEditTask/AddEditTask";
+import ViewAllTask from "./pages/viewAllTasks/ViewAllTasks";
+import AddEditTask from "./pages/AddOrEditTask/AddEditTask";
 function App() {
   return (
     <>

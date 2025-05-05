@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useTheme } from "../../hooks/useTheme";
 import "./AddEditForm.css";
-import { Task } from "../ShowTasks/ShowTasks";
+import { Task } from "../../types/types";
 
 type StatusType = "Todo" | "In Progress" | "Done";
 
