@@ -11,7 +11,7 @@ export type Task = {
 };
 
 export default function ShowTasks() {
-  const { task } = useGlobalContext();
+  const { task, setTask } = useGlobalContext();
   const navigate = useNavigate();
 
   function handleTaskEdit(event: React.MouseEvent) {
@@ -25,7 +25,15 @@ export default function ShowTasks() {
   }
 
   function handleChangeOnStatus(event: React.ChangeEvent) {
-    console.log(event);
+    const newTasksArray = task.map((t: Task) => {
+      if (t.id === event.target.id && "value" in event.target) {
+        t.status = event.target.value as string;
+      }
+      return t;
+    });
+
+    localStorage.setItem("tasks-array", JSON.stringify(newTasksArray));
+    setTask(newTasksArray);
   }
 
   const statusOptions = ["Done", "In Progress", "Todo"];
@@ -44,6 +52,7 @@ export default function ShowTasks() {
           <div className="tasks-title">{task.title}</div>
           <div className="tasks-description">{task.description}</div>
           <select
+            id={task.id}
             className="options-select"
             value={task.status}
             onChange={handleChangeOnStatus}
