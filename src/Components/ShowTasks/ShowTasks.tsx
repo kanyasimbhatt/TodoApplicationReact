@@ -1,5 +1,5 @@
 import "./showTasks.css";
-import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
+import { useTheme } from "../../hooks/useTheme";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ export type Task = {
 };
 
 export default function ShowTasks() {
-  const { task, setTask } = useGlobalContext();
+  const { tasks, setTasks } = useTheme();
   const navigate = useNavigate();
 
   function handleTaskEdit(event: React.MouseEvent) {
@@ -33,7 +33,7 @@ export default function ShowTasks() {
   }
 
   function handleChangeOnStatus(event: React.ChangeEvent) {
-    const newTasksArray = task.map((t: Task) => {
+    const newTasksArray = tasks.map((t: Task) => {
       if (t.id === event.target.id && "value" in event.target) {
         t.status = event.target.value as string;
       }
@@ -41,13 +41,13 @@ export default function ShowTasks() {
     });
 
     localStorage.setItem("tasks-array", JSON.stringify(newTasksArray));
-    setTask(newTasksArray);
+    setTasks(newTasksArray);
   }
 
   const statusOptions = ["Done", "In Progress", "Todo"];
   return (
     <div className="show-task">
-      {task.length === 0 ? (
+      {tasks.length === 0 ? (
         <div className="header-wrapper">
           {" "}
           <h3>No Tasks Added yet!</h3>
@@ -55,7 +55,7 @@ export default function ShowTasks() {
       ) : (
         <></>
       )}
-      {task.map((task: Task) => (
+      {tasks.map((task: Task) => (
         <div className={`card-wrapper ${task.status}`} key={task.id}>
           <div className="tasks-title">{task.title}</div>
           <div className="tasks-description">{task.description}</div>
