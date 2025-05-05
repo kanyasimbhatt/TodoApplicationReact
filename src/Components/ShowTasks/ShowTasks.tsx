@@ -45,7 +45,7 @@ export default function ShowTasks() {
           <div className="tasks-description">{task.description}</div>
           <select
             className="options-select"
-            value={"Todo"}
+            value={task.status}
             onChange={handleChangeOnStatus}
           >
             <option disabled>{task.status}</option>

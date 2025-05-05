@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -20,7 +21,7 @@ z.custom<StatusType>((val) => isValidValue(val), {
 const schema = z.object({
   title: z.string().min(5),
   description: z.string().min(10),
-  status: z.string(),
+  status: z.custom(),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -29,25 +30,8 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
   const { setTask } = useGlobalContext();
   const allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
-  const task = allTasks.find((task: Task) => task.id === taskId);
-
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    const id = crypto.randomUUID();
-
-    try {
-      localStorage.setItem(
-        "tasks-array",
-        JSON.stringify([...allTasks, { ...data, id: id }])
-      );
-      setTask([...allTasks, { ...data, id: id }]);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-      setError("root", {
-        message: "Was not able to submit the form",
-      });
-    }
-  };
+  const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
+  let task = allTasks[taskIndex];
   const {
     register,
     handleSubmit,
@@ -57,12 +41,53 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
     resolver: zodResolver(schema),
   });
 
+  if (!task) {
+    task = {
+      id: "",
+      title: "",
+      description: "",
+      status: "",
+    };
+  }
+
+  const [inputFields, setInputFields] = useState({
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    status: task.status,
+  });
+
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
+    try {
+      if (taskId) {
+        allTasks[taskIndex] = { ...data, id: taskId };
+        localStorage.setItem("tasks-array", JSON.stringify(allTasks));
+        setTask(allTasks);
+        navigate("/");
+      } else {
+        const id = crypto.randomUUID();
+        localStorage.setItem(
+          "tasks-array",
+          JSON.stringify([...allTasks, { ...data, id: id }]),
+        );
+        setTask([...allTasks, { ...data, id: id }]);
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err);
+      setError("root", {
+        message: "Was not able to submit the form",
+      });
+    }
+  };
+
   return (
     <div>
       <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
         <h2 className="form-title">
           {taskId === "" ? `Add Task` : `Edit Task`}
         </h2>
+
         <label>
           {" "}
           <b>Enter Title: </b>
@@ -73,12 +98,16 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             id="input-tag"
             className="title"
             placeholder="Enter title"
-            value={taskId !== "" ? task.title : null}
+            onChange={(e) =>
+              setInputFields({ ...inputFields, title: e.target.value })
+            }
+            value={inputFields.title}
           />
           {errors.title && (
             <div className="error-message">{errors.title.message}</div>
           )}
         </label>
+
         <label>
           {" "}
           <b> Enter Description:</b>
@@ -88,7 +117,10 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             type="text"
             id="input-tag"
             className="description"
-            value={taskId !== "" ? task.description : null}
+            onChange={(e) =>
+              setInputFields({ ...inputFields, description: e.target.value })
+            }
+            value={inputFields.description}
             placeholder="Enter Description"
           />
           {errors.description && (
@@ -102,15 +134,27 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             {...register("status")}
             id="input-tag"
             className="status-select"
-            value={taskId !== "" ? task.status : "Todo"}
+            onChange={(e) =>
+              setInputFields({ ...inputFields, status: e.target.value })
+            }
+            value={inputFields.status}
           >
             <option value={"Todo"}>Todo</option>
-            <option value={"In Progress"} disabled>
-              In Progress
-            </option>
-            <option value={"Done"} disabled>
-              Done
-            </option>
+
+            {taskId === "" ? (
+              <option value={"In Progress"} disabled>
+                In Progress
+              </option>
+            ) : (
+              <option value={"In Progress"}>In Progress</option>
+            )}
+            {taskId === "" ? (
+              <option value={"Done"} disabled>
+                Done
+              </option>
+            ) : (
+              <option value={"Done"}>Done</option>
+            )}
           </select>
         </label>
 
