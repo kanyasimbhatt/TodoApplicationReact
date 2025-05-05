@@ -11,7 +11,7 @@ export type Task = {
 };
 
 export default function ShowTasks() {
-  const { task } = useTheme();
+  const { tasks } = useTheme();
   const navigate = useNavigate();
 
   function handleTaskEdit(event: React.MouseEvent) {
@@ -31,7 +31,7 @@ export default function ShowTasks() {
   const statusOptions = ["Done", "In Progress", "Todo"];
   return (
     <div className="show-task">
-      {task.length === 0 ? (
+      {tasks.length === 0 ? (
         <div className="header-wrapper">
           {" "}
           <h3>No Tasks Added yet!</h3>
@@ -39,7 +39,7 @@ export default function ShowTasks() {
       ) : (
         <></>
       )}
-      {task.map((task: Task) => (
+      {tasks.map((task: Task) => (
         <div className={`card-wrapper ${task.status}`} key={task.id}>
           <div className="tasks-title">{task.title}</div>
           <div className="tasks-description">{task.description}</div>
