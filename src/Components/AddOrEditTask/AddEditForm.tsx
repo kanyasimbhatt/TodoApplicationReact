@@ -3,7 +3,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
+import { useTheme } from "../../hooks/useTheme";
 import "./AddEditForm.css";
 import { Task } from "../ShowTasks/ShowTasks";
 
@@ -28,7 +28,7 @@ type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
-  const { setTask } = useGlobalContext();
+  const { setTask } = useTheme();
   const allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
   const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
   let task = allTasks[taskIndex];
@@ -76,7 +76,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
     } catch (err) {
       console.log(err);
       setError("root", {
-        message: "Was not able to submit the form",
+        message: "There was some issue in the process",
       });
     }
   };
