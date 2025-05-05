@@ -1,52 +1,37 @@
-import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
+import { UseFormRegister } from "react-hook-form";
 import "./FilterTask.css";
+import { FilterElement } from "../ShowTasks/ShowTasks";
 
-export default function FilterTask() {
-  const { task } = useGlobalContext();
-  function handleSearchByTitle(event: React.ChangeEvent) {
-    console.log(event);
-    console.log(task);
-  }
-
-  function handleSearchByDescription(event: React.ChangeEvent) {
-    console.log(event);
-  }
-
-  function handleSearchByBoth(event: React.ChangeEvent) {
-    console.log(event);
-  }
-
-  function handleFilterByStatus(event: React.ChangeEvent) {
-    console.log(event);
-  }
+export default function FilterTask({
+  register,
+}: {
+  register: UseFormRegister<FilterElement>;
+}) {
   return (
     <>
       <div className="filter-section">
         <input
           type="text"
+          {...register("searchByTitle")}
           id="input"
-          onChange={handleSearchByTitle}
           placeholder="Search By Title"
         />
         <input
           type="text"
+          {...register("searchByDescription")}
           id="input"
-          onChange={handleSearchByDescription}
           placeholder="Search By Description"
         />
         <input
           type="text"
           id="input"
-          onChange={handleSearchByBoth}
+          {...register("searchByBoth")}
           placeholder="Search By Title and Description"
         />
         <label className="status-filter">
           Filter By Status:
-          <select
-            value={`All Tasks`}
-            id="input"
-            onChange={handleFilterByStatus}
-          >
+          <select {...register("filterStatus")} id="input">
+            <option value={""}>All Task</option>
             <option value={`Todo`}>Todo</option>
             <option value={`In Progress`}>In Progress</option>
             <option value={`Done`}>Done</option>
