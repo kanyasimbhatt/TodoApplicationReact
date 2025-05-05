@@ -4,3 +4,10 @@ export type Task = {
   description: string;
   status: string;
 };
+
+export type FilterElement = {
+  searchByTitle: string;
+  searchByDescription: string;
+  searchByBoth: string;
+  filterStatus: string;
+};

@@ -4,14 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import FilterTask from "../FilterTasks/FilterTask";
 import { useForm } from "react-hook-form";
-import { Task } from "../../types/types";
-
-export type FilterElement = {
-  searchByTitle: string;
-  searchByDescription: string;
-  searchByBoth: string;
-  filterStatus: string;
-};
+import { Task, FilterElement } from "../../types/types";
 
 export default function ShowTasks() {
   const { tasks, setTasks } = useTheme();
@@ -28,22 +21,16 @@ export default function ShowTasks() {
 
   const filteredTasks = tasks.filter((t: Task) => {
     const searchedTitle = filterContent.searchByTitle
-      ? t.title
-          .toLowerCase()
-          .includes(filterContent.searchByTitle.toLowerCase())
+      ? searchTheGiven(t.title, filterContent.searchByTitle)
       : true;
 
     const searchedDescription = filterContent.searchByDescription
-      ? t.description
-          .toLowerCase()
-          .includes(filterContent.searchByDescription.toLowerCase())
+      ? searchTheGiven(t.description, filterContent.searchByDescription)
       : true;
 
     const searchedBoth = filterContent.searchByBoth
-      ? t.description
-          .toLowerCase()
-          .includes(filterContent.searchByDescription.toLowerCase()) &&
-        t.title.toLowerCase().includes(filterContent.searchByBoth.toLowerCase())
+      ? searchTheGiven(t.title, filterContent.searchByBoth) &&
+        searchTheGiven(t.description, filterContent.searchByBoth)
       : true;
 
     const searchByStatus = filterContent.filterStatus
@@ -54,6 +41,15 @@ export default function ShowTasks() {
       searchedTitle && searchedDescription && searchedBoth && searchByStatus
     );
   });
+
+  function searchTheGiven(taskValue: string, filterContentValue: string) {
+    return taskValue.toLowerCase().includes(filterContentValue.toLowerCase());
+  }
+
+  function setStateAndSaveData(filteredArray: Task[]) {
+    localStorage.setItem("tasks-array", JSON.stringify(filteredArray));
+    setTasks(filteredArray);
+  }
 
   function handleTaskEdit(event: React.MouseEvent) {
     if ("id" in event.target) {
@@ -69,8 +65,7 @@ export default function ShowTasks() {
       return false;
     });
 
-    localStorage.setItem("tasks-array", JSON.stringify(newFilteredArray));
-    setTasks(newFilteredArray);
+    setStateAndSaveData(newFilteredArray);
   }
 
   function handleChangeOnStatus(event: React.ChangeEvent) {
@@ -81,8 +76,7 @@ export default function ShowTasks() {
       return t;
     });
 
-    localStorage.setItem("tasks-array", JSON.stringify(newTasksArray));
-    setTasks(newTasksArray);
+    setStateAndSaveData(newTasksArray);
   }
 
   const statusOptions = ["Done", "In Progress", "Todo"];
@@ -92,7 +86,6 @@ export default function ShowTasks() {
       <div className="show-task">
         {filteredTasks.length === 0 ? (
           <div className="header-wrapper">
-            {" "}
             <h3>No Tasks yet!</h3>
           </div>
         ) : (
