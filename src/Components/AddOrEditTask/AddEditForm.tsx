@@ -1,5 +1,4 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -29,9 +28,9 @@ type FormFields = z.infer<typeof schema>;
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
   const { setTask } = useTheme();
-  const allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
+  let allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
   const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
-  let task = allTasks[taskIndex];
+
   const {
     register,
     handleSubmit,
@@ -41,38 +40,17 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
     resolver: zodResolver(schema),
   });
 
-  if (!task) {
-    task = {
-      id: "",
-      title: "",
-      description: "",
-      status: "",
-    };
-  }
-
-  const [inputFields, setInputFields] = useState({
-    id: task.id,
-    title: task.title,
-    description: task.description,
-    status: task.status,
-  });
-
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     try {
       if (taskId) {
         allTasks[taskIndex] = { ...data, id: taskId };
-        localStorage.setItem("tasks-array", JSON.stringify(allTasks));
-        setTask(allTasks);
-        navigate("/");
       } else {
         const id = crypto.randomUUID();
-        localStorage.setItem(
-          "tasks-array",
-          JSON.stringify([...allTasks, { ...data, id: id }]),
-        );
-        setTask([...allTasks, { ...data, id: id }]);
-        navigate("/");
+        allTasks = [...allTasks, { ...data, id: id }];
       }
+      localStorage.setItem("tasks-array", JSON.stringify(allTasks));
+      setTask(allTasks);
+      navigate("/");
     } catch (err) {
       console.log(err);
       setError("root", {
@@ -98,10 +76,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             id="input-tag"
             className="title"
             placeholder="Enter title"
-            onChange={(e) =>
-              setInputFields({ ...inputFields, title: e.target.value })
-            }
-            value={inputFields.title}
+            defaultValue={allTasks[taskIndex].title}
           />
           {errors.title && (
             <div className="error-message">{errors.title.message}</div>
@@ -117,10 +92,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             type="text"
             id="input-tag"
             className="description"
-            onChange={(e) =>
-              setInputFields({ ...inputFields, description: e.target.value })
-            }
-            value={inputFields.description}
+            defaultValue={allTasks[taskIndex].description}
             placeholder="Enter Description"
           />
           {errors.description && (
@@ -134,10 +106,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             {...register("status")}
             id="input-tag"
             className="status-select"
-            onChange={(e) =>
-              setInputFields({ ...inputFields, status: e.target.value })
-            }
-            value={inputFields.status}
+            defaultValue={allTasks[taskIndex].status}
           >
             <option value={"Todo"}>Todo</option>
 
