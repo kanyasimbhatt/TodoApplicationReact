@@ -41,7 +41,7 @@ export default function AddEditForm() {
     } catch (err) {
       console.log(err);
       setError("root", {
-        message: "Was not able to submit the form",
+        message: "There was some issue in the process",
       });
     }
   };
