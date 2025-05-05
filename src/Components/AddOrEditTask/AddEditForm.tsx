@@ -30,22 +30,14 @@ export default function AddEditForm() {
       if (!localStorage.getItem("tasks-array")) {
         localStorage.setItem("tasks-array", JSON.stringify([]));
       }
-
       const tasks = JSON.parse(localStorage.getItem("tasks-array") as string);
       tasks.push(data);
       localStorage.setItem("tasks-array", JSON.stringify(tasks));
-      const inputElement = document.querySelectorAll("#input-tag");
-      inputElement.forEach((element) => {
-        if (element.className === "status-select") {
-          (element as HTMLSelectElement).selectedIndex = 0;
-        } else (element as HTMLInputElement).value = "";
-      });
-
       navigate("/");
     } catch (err) {
       console.log(err);
       setError("root", {
-        message: "This email is already taken",
+        message: "There was some issue in the process",
       });
     }
   };
