@@ -21,7 +21,15 @@ export default function ShowTasks() {
   }
 
   function handleTaskDelete(event: React.MouseEvent) {
-    console.log(event);
+    const newFilteredArray = task.filter((t: Task) => {
+      if ("id" in event.target && t.id !== event.target.id) {
+        return true;
+      }
+      return false;
+    });
+
+    localStorage.setItem("tasks-array", JSON.stringify(newFilteredArray));
+    setTask(newFilteredArray);
   }
 
   function handleChangeOnStatus(event: React.ChangeEvent) {
