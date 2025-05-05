@@ -1,5 +1,5 @@
 import "./showTasks.css";
-import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
+import { useTheme } from "../../hooks/useTheme";
 import React from "react";
 
 export type Task = {
@@ -10,7 +10,7 @@ export type Task = {
 };
 
 export default function ShowTasks() {
-  const { task } = useGlobalContext();
+  const { task } = useTheme();
 
   function handleTaskEdit(event: React.MouseEvent) {
     console.log(event);

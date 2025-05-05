@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
+import { useTheme } from "../../hooks/useTheme";
 import "./AddEditForm.css";
 
 type StatusType = "Todo" | "In Progress" | "Done";
@@ -26,7 +26,7 @@ type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm() {
   const navigate = useNavigate();
-  const { setTask } = useGlobalContext();
+  const { setTask } = useTheme();
   const allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     const id = crypto.randomUUID();
