@@ -1,8 +1,11 @@
+import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
 import "./FilterTask.css";
 
 export default function FilterTask() {
+  const { task } = useGlobalContext();
   function handleSearchByTitle(event: React.ChangeEvent) {
     console.log(event);
+    console.log(task);
   }
 
   function handleSearchByDescription(event: React.ChangeEvent) {
