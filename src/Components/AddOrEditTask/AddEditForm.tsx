@@ -27,7 +27,7 @@ type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
-  const { setTask } = useTheme();
+  const { setTasks } = useTheme();
   let allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
   const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
 
@@ -49,7 +49,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
         allTasks = [...allTasks, { ...data, id: id }];
       }
       localStorage.setItem("tasks-array", JSON.stringify(allTasks));
-      setTask(allTasks);
+      setTasks(allTasks);
       navigate("/");
     } catch (err) {
       console.log(err);
