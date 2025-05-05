@@ -1,33 +1,14 @@
-import { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import ShowTasks from "../ShowTasks/ShowTasks";
-import { createContext, useContext } from "react";
-import { Task } from "../ShowTasks/ShowTasks";
-
-export type TasksArrayType = {
-  task: Task[];
-  setTask: (c: Task[]) => void;
-};
-
-const TaskContext = createContext<TasksArrayType>({
-  task: [],
-  setTask: () => {},
-});
-export const useGlobalContext = () => useContext(TaskContext);
+import TaskProvider from "../../context/TaskProvider";
 
 export default function ViewAllTask() {
-  if (!localStorage.getItem("tasks-array")) {
-    localStorage.setItem("tasks-array", JSON.stringify([]));
-  }
-  const [task, setTask] = useState<Task[]>(
-    JSON.parse(localStorage.getItem("tasks-array") as string)
-  );
   return (
-    <div>
-      <TaskContext.Provider value={{ task, setTask }}>
+    <TaskProvider>
+      <>
         <Navbar buttonName="Add Task" />
         <ShowTasks />
-      </TaskContext.Provider>
-    </div>
+      </>
+    </TaskProvider>
   );
 }

@@ -1,5 +1,5 @@
 import "./showTasks.css";
-import { useGlobalContext } from "../viewAllTasks/ViewAllTasks";
+import { useTheme } from "../../hooks/useTheme";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import FilterTask from "../FilterTasks/FilterTask";
@@ -20,7 +20,7 @@ export type FilterElement = {
 };
 
 export default function ShowTasks() {
-  const { task, setTask } = useGlobalContext();
+  const { tasks, setTasks } = useTheme();
   const { register, watch } = useForm<FilterElement>({
     defaultValues: {
       searchByTitle: "",
@@ -32,7 +32,7 @@ export default function ShowTasks() {
   const filterContent = watch();
   const navigate = useNavigate();
 
-  const filteredTasks = task.filter((t: Task) => {
+  const filteredTasks = tasks.filter((t: Task) => {
     const searchedTitle = filterContent.searchByTitle
       ? t.title
           .toLowerCase()
@@ -68,7 +68,7 @@ export default function ShowTasks() {
   }
 
   function handleTaskDelete(event: React.MouseEvent) {
-    const newFilteredArray = task.filter((t: Task) => {
+    const newFilteredArray = tasks.filter((t: Task) => {
       if ("id" in event.target && t.id !== event.target.id) {
         return true;
       }
@@ -76,11 +76,11 @@ export default function ShowTasks() {
     });
 
     localStorage.setItem("tasks-array", JSON.stringify(newFilteredArray));
-    setTask(newFilteredArray);
+    setTasks(newFilteredArray);
   }
 
   function handleChangeOnStatus(event: React.ChangeEvent) {
-    const newTasksArray = task.map((t: Task) => {
+    const newTasksArray = tasks.map((t: Task) => {
       if (t.id === event.target.id && "value" in event.target) {
         t.status = event.target.value as string;
       }
@@ -88,7 +88,7 @@ export default function ShowTasks() {
     });
 
     localStorage.setItem("tasks-array", JSON.stringify(newTasksArray));
-    setTask(newTasksArray);
+    setTasks(newTasksArray);
   }
 
   const statusOptions = ["Done", "In Progress", "Todo"];
