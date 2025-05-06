@@ -5,7 +5,7 @@ import { z } from "zod";
 import useTask from "../../context/TaskContext/TaskContext";
 import "./AddEditForm.css";
 import { Task } from "../../types/TaskType/types";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 type StatusType = "Todo" | "In Progress" | "Done";
 
@@ -28,6 +28,7 @@ type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
+  const ref = useRef(true);
   const { tasks, setTasks } = useTask();
   let allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
   const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
@@ -60,7 +61,11 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
   };
 
   useEffect(() => {
-    localStorage.setItem("tasks-array", JSON.stringify(tasks));
+    if (!ref.current) {
+      console.log(tasks);
+      localStorage.setItem("tasks-array", JSON.stringify(tasks));
+    }
+    ref.current = false;
   }, [tasks]);
 
   return (
