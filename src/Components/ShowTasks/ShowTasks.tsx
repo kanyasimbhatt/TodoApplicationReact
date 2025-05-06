@@ -1,5 +1,5 @@
 import "./showTasks.css";
-import { useTheme } from "../../hooks/useTheme";
+import useTask from "../../hooks/useTask";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import FilterTask from "../FilterTasks/FilterTask";
@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { Task, FilterElement } from "../../types/types";
 
 export default function ShowTasks() {
-  const { tasks, setTasks } = useTheme();
+  const { tasks, setTasks } = useTask();
   const { register, watch } = useForm<FilterElement>({
     defaultValues: {
       searchByTitle: "",
