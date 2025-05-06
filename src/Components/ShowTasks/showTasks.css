@@ -8,7 +8,7 @@
 }
 
 .card-wrapper {
-  height: 220px;
+  height: 250px;
   width: 250px;
   padding: 10px 20px 10px 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.349);
@@ -18,6 +18,7 @@
   border-radius: 20px;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .header-wrapper {
@@ -50,6 +51,15 @@
 .edit-delete-button {
   display: flex;
   gap: 30px;
+}
+
+.tasks-title,
+.tasks-description {
+  height: 25%;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (max-width: 1100px) {
