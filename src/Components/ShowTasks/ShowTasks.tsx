@@ -1,5 +1,5 @@
 import "./showTasks.css";
-import { useTheme } from "../../hooks/useTheme";
+import useTask from "../../hooks/useTask";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ export type Task = {
 };
 
 export default function ShowTasks() {
-  const { tasks } = useTheme();
+  const { tasks } = useTask();
   const navigate = useNavigate();
 
   function handleTaskEdit(event: React.MouseEvent) {

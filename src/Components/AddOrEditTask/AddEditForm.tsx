@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { useTheme } from "../../hooks/useTheme";
+import useTask from "../../hooks/useTask";
 import "./AddEditForm.css";
 import { Task } from "../ShowTasks/ShowTasks";
 
@@ -27,7 +27,7 @@ type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
-  const { setTasks } = useTheme();
+  const { setTasks } = useTask();
   let allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
   const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
 
@@ -76,7 +76,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             id="input-tag"
             className="title"
             placeholder="Enter title"
-            defaultValue={allTasks[taskIndex].title}
+            defaultValue={taskId ? allTasks[taskIndex].title : ""}
           />
           {errors.title && (
             <div className="error-message">{errors.title.message}</div>
@@ -92,7 +92,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             type="text"
             id="input-tag"
             className="description"
-            defaultValue={allTasks[taskIndex].description}
+            defaultValue={taskId ? allTasks[taskIndex].description : ""}
             placeholder="Enter Description"
           />
           {errors.description && (
@@ -106,7 +106,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             {...register("status")}
             id="input-tag"
             className="status-select"
-            defaultValue={allTasks[taskIndex].status}
+            defaultValue={taskId ? allTasks[taskIndex].status : "Todo"}
           >
             <option value={"Todo"}>Todo</option>
 
