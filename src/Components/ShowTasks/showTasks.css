@@ -28,15 +28,15 @@
 }
 
 .Done {
-  background-color: green;
+  background-color: rgb(72, 139, 72);
 }
 
 .Todo {
-  background-color: rgb(99, 32, 32);
+  background-color: rgb(143, 70, 70);
 }
 
 .In {
-  background-color: rgb(37, 37, 95);
+  background-color: rgb(73, 73, 131);
 }
 
 .options-select {
