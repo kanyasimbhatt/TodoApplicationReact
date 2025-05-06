@@ -1,12 +1,13 @@
 import "./showTasks.css";
-import useTask from "../../hooks/useTask";
-import React from "react";
+import useTask from "../../context/TaskContext/TaskContext";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FilterTask from "../FilterTasks/FilterTask";
 import { useForm } from "react-hook-form";
-import { Task, FilterElement } from "../../types/types";
+import { Task, FilterElement } from "../../types/TaskType/types";
 
 export default function ShowTasks() {
+  const statusOptions = ["Done", "In Progress", "Todo"];
   const { tasks, setTasks } = useTask();
   const { register, watch } = useForm<FilterElement>({
     defaultValues: {
@@ -46,11 +47,6 @@ export default function ShowTasks() {
     return taskValue.toLowerCase().includes(filterContentValue.toLowerCase());
   }
 
-  function setStateAndSaveData(filteredArray: Task[]) {
-    localStorage.setItem("tasks-array", JSON.stringify(filteredArray));
-    setTasks(filteredArray);
-  }
-
   function handleTaskEdit(event: React.MouseEvent) {
     if ("id" in event.target) {
       navigate(`/add-task/${event.target!.id}`);
@@ -64,8 +60,7 @@ export default function ShowTasks() {
       }
       return false;
     });
-
-    setStateAndSaveData(newFilteredArray);
+    setTasks(newFilteredArray);
   }
 
   function handleChangeOnStatus(event: React.ChangeEvent) {
@@ -75,11 +70,13 @@ export default function ShowTasks() {
       }
       return t;
     });
-
-    setStateAndSaveData(newTasksArray);
+    setTasks(newTasksArray);
   }
 
-  const statusOptions = ["Done", "In Progress", "Todo"];
+  useEffect(() => {
+    localStorage.setItem("tasks-array", JSON.stringify(tasks));
+  }, [tasks]);
+
   return (
     <>
       <FilterTask register={register} />

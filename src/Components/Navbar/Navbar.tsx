@@ -6,7 +6,7 @@ export default function Navbar({ buttonName }: { buttonName: string }) {
   const navigate = useNavigate();
   function handleNavbarButtonClick() {
     if (buttonName === "Add Task") {
-      navigate("/add-task");
+      navigate(`/add-task`);
     } else {
       navigate("/");
     }

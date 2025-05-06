@@ -1,6 +1,6 @@
 import Navbar from "../../Components/Navbar/Navbar";
 import ShowTasks from "../../Components/ShowTasks/ShowTasks";
-import TaskProvider from "../../context/TaskProvider";
+import TaskProvider from "../../context/TaskContext/TaskProvider";
 
 export default function ViewAllTask() {
   return (

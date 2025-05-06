@@ -2,9 +2,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import useTask from "../../hooks/useTask";
+import useTask from "../../context/TaskContext/TaskContext";
 import "./AddEditForm.css";
-import { Task } from "../../types/types";
+import { Task } from "../../types/TaskType/types";
+import { useEffect } from "react";
 
 type StatusType = "Todo" | "In Progress" | "Done";
 
@@ -27,7 +28,7 @@ type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
-  const { setTasks } = useTask();
+  const { tasks, setTasks } = useTask();
   let allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
   const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
 
@@ -48,7 +49,6 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
         const id = crypto.randomUUID();
         allTasks = [...allTasks, { ...data, id: id }];
       }
-      localStorage.setItem("tasks-array", JSON.stringify(allTasks));
       setTasks(allTasks);
       navigate("/");
     } catch (err) {
@@ -58,6 +58,10 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
       });
     }
   };
+
+  useEffect(() => {
+    localStorage.setItem("tasks-array", JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <div>

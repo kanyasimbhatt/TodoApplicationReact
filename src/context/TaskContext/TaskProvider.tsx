@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Task } from "../types/types";
+import { Task } from "../../types/TaskType/types";
 import { TaskContext } from "./TaskContext";
 
 type ChildrenType = {
