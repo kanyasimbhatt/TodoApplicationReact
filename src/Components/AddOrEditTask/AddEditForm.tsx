@@ -23,7 +23,7 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 export default function AddEditForm() {
-  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+  const onSubmit: SubmitHandler<FormFields> = (data) => {
     try {
       console.log(data);
     } catch (err) {
@@ -46,7 +46,6 @@ export default function AddEditForm() {
       <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
         <h2 className="form-title">Add Task</h2>
         <label>
-          {" "}
           <b>Enter Title: </b>
           <br />
           <input
@@ -60,7 +59,6 @@ export default function AddEditForm() {
           )}
         </label>
         <label>
-          {" "}
           <b> Enter Description:</b>
           <br />
           <input
