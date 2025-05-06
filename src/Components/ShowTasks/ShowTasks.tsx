@@ -86,6 +86,7 @@ export default function ShowTasks() {
       <div className="show-task">
         {filteredTasks.length === 0 ? (
           <div className="header-wrapper">
+            {" "}
             <h3>No Tasks yet!</h3>
           </div>
         ) : (
