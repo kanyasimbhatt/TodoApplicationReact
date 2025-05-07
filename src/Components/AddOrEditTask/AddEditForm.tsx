@@ -19,8 +19,8 @@ type FormFields = z.infer<typeof schema>;
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
   const { tasks, setTasks } = useTask();
-  let allTasks = tasks;
-  const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
+
+  const taskIndex = tasks.findIndex((task: Task) => task.id === taskId);
 
   const {
     register,
@@ -33,6 +33,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     try {
+      let allTasks = tasks;
       if (taskId) {
         allTasks[taskIndex] = { ...data, id: taskId };
       } else {
@@ -69,7 +70,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             type="text"
             className="title input-tag"
             placeholder="Enter title"
-            defaultValue={taskId ? allTasks[taskIndex].title : ""}
+            defaultValue={taskId ? tasks[taskIndex].title : ""}
           />
           {errors.title && (
             <div className="error-message">{errors.title.message}</div>
@@ -84,7 +85,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
             {...register("description")}
             type="text"
             className="description input-tag"
-            defaultValue={taskId ? allTasks[taskIndex].description : ""}
+            defaultValue={taskId ? tasks[taskIndex].description : ""}
             placeholder="Enter Description"
           />
           {errors.description && (
@@ -97,7 +98,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
           <select
             {...register("status")}
             className="status-select input-tag"
-            defaultValue={taskId ? allTasks[taskIndex].status : "Todo"}
+            defaultValue={taskId ? tasks[taskIndex].status : "Todo"}
           >
             <option value={"Todo"}>Todo</option>
 
