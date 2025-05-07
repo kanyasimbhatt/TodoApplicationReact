@@ -19,20 +19,17 @@ type FormFields = z.infer<typeof schema>;
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
   const { tasks, setTasks } = useTask();
-
   const taskIndex = tasks.findIndex((task: Task) => task.id === taskId);
 
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
-    try {
       let allTasks = tasks;
       if (taskId) {
         allTasks[taskIndex] = { ...data, id: taskId };
@@ -42,12 +39,6 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
       }
       setTasks(allTasks);
       navigate("/");
-    } catch (err) {
-      console.log(err);
-      setError("root", {
-        message: "There was some issue in the process",
-      });
-    }
   };
 
   useEffect(() => {
