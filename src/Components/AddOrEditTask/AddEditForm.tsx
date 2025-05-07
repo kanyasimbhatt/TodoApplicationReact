@@ -61,11 +61,9 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
   };
 
   useEffect(() => {
-    if (!ref.current) {
-      console.log(tasks);
+  
       localStorage.setItem("tasks-array", JSON.stringify(tasks));
-    }
-    ref.current = false;
+ 
   }, [tasks]);
 
   return (
