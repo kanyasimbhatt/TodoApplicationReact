@@ -12,7 +12,7 @@
   gap: 30px;
 }
 
-#input-tag {
+.input-tag {
   border: none;
   height: 50px;
   min-width: 80vw;

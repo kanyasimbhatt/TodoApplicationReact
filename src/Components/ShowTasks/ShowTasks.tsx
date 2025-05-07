@@ -30,8 +30,8 @@ export default function ShowTasks() {
       : true;
 
     const searchedBoth = filterContent.searchByBoth
-      ? searchTheGiven(t.title, filterContent.searchByBoth) &&
-        searchTheGiven(t.description, filterContent.searchByBoth)
+      ? (searchTheGiven(t.title, filterContent.searchByBoth) ||
+        searchTheGiven(t.description, filterContent.searchByBoth))
       : true;
 
     const searchByStatus = filterContent.filterStatus

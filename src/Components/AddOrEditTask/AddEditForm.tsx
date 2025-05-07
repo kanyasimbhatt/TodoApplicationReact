@@ -7,21 +7,11 @@ import "./AddEditForm.css";
 import { Task } from "../../types/TaskType/types";
 import { useEffect } from "react";
 
-type StatusType = "Todo" | "In Progress" | "Done";
-
-const isValidValue = (val: string): boolean => {
-  if (val === "Todo" || val === "In Progress" || val === "Done") return true;
-  return false;
-};
-
-z.custom<StatusType>((val) => isValidValue(val), {
-  message: "Not a valid Status",
-});
 
 const schema = z.object({
   title: z.string().min(5),
   description: z.string().min(10),
-  status: z.custom(),
+  status: z.enum(["Todo", "In Progress", "Done"]),
 });
 
 type FormFields = z.infer<typeof schema>;
@@ -29,7 +19,7 @@ type FormFields = z.infer<typeof schema>;
 export default function AddEditForm({ taskId }: { taskId: string }) {
   const navigate = useNavigate();
   const { tasks, setTasks } = useTask();
-  let allTasks = JSON.parse(localStorage.getItem("tasks-array") as string);
+  let allTasks = tasks;
   const taskIndex = allTasks.findIndex((task: Task) => task.id === taskId);
 
   const {
@@ -77,8 +67,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
           <input
             {...register("title")}
             type="text"
-            id="input-tag"
-            className="title"
+            className="title input-tag"
             placeholder="Enter title"
             defaultValue={taskId ? allTasks[taskIndex].title : ""}
           />
@@ -94,8 +83,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
           <input
             {...register("description")}
             type="text"
-            id="input-tag"
-            className="description"
+            className="description input-tag"
             defaultValue={taskId ? allTasks[taskIndex].description : ""}
             placeholder="Enter Description"
           />
@@ -108,8 +96,7 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
           <br />
           <select
             {...register("status")}
-            id="input-tag"
-            className="status-select"
+            className="status-select input-tag"
             defaultValue={taskId ? allTasks[taskIndex].status : "Todo"}
           >
             <option value={"Todo"}>Todo</option>
