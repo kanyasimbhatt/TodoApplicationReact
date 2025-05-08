@@ -15,7 +15,7 @@ type ChildrenType = {
   children: React.ReactNode;
 };
 
-export function TaskProvider({ children }: ChildrenType) {
+export const TaskProvider: React.FC<ChildrenType> = ({ children }) => {
   if (!localStorage.getItem("tasks-array")) {
     localStorage.setItem("tasks-array", JSON.stringify([]));
   }
@@ -27,9 +27,9 @@ export function TaskProvider({ children }: ChildrenType) {
       {children}
     </TaskContext.Provider>
   );
-}
+};
 
-export default function useTask() {
+export const useTask = () => {
   const context = useContext(TaskContext);
 
   if (!context) {
@@ -37,4 +37,4 @@ export default function useTask() {
   }
 
   return context;
-}
+};

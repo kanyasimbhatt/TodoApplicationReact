@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useEffect } from "react";
-import useTask from "../TaskProvider";
+import { useTask } from "../TaskProvider";
 import "./AddEditForm.css";
 import { Task } from "../../Types/Tasks/types";
 
