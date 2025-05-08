@@ -2,11 +2,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import useTask from "../../context/TaskContext/TaskContext";
+import useTask from "../context/TaskContext/TaskProvider";
 import "./AddEditForm.css";
-import { Task } from "../../types/TaskType/types";
+import { Task } from "../types/TaskType/types";
 import { useEffect } from "react";
-
 
 const schema = z.object({
   title: z.string().min(5),
@@ -30,19 +29,19 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
   });
 
   const onSubmit: SubmitHandler<FormFields> = (data) => {
-      let allTasks = tasks;
-      if (taskId) {
-        allTasks[taskIndex] = { ...data, id: taskId };
-      } else {
-        const id = crypto.randomUUID();
-        allTasks = [...allTasks, { ...data, id: id }];
-      }
-      setTasks(allTasks);
-      navigate("/");
+    let allTasks = tasks;
+    if (taskId) {
+      allTasks[taskIndex] = { ...data, id: taskId };
+    } else {
+      const id = crypto.randomUUID();
+      allTasks = [...allTasks, { ...data, id: id }];
+    }
+    setTasks(allTasks);
+    navigate("/");
   };
 
   useEffect(() => {
-      localStorage.setItem("tasks-array", JSON.stringify(tasks));
+    localStorage.setItem("tasks-array", JSON.stringify(tasks));
   }, [tasks]);
 
   return (

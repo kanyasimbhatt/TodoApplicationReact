@@ -1,10 +1,10 @@
 import "./showTasks.css";
-import useTask from "../../context/TaskContext/TaskContext";
+import useTask from "../context/TaskContext/TaskProvider";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import FilterTask from "../FilterTasks/FilterTask";
 import { useForm } from "react-hook-form";
-import { Task, FilterElement } from "../../types/TaskType/types";
+import { Task, FilterElement } from "../types/TaskType/types";
 
 export default function ShowTasks() {
   const statusOptions = ["Done", "In Progress", "Todo"];
@@ -30,8 +30,8 @@ export default function ShowTasks() {
       : true;
 
     const searchedBoth = filterContent.searchByBoth
-      ? (searchTheGiven(t.title, filterContent.searchByBoth) &&
-        searchTheGiven(t.description, filterContent.searchByBoth))
+      ? searchTheGiven(t.title, filterContent.searchByBoth) &&
+        searchTheGiven(t.description, filterContent.searchByBoth)
       : true;
 
     const searchByStatus = filterContent.filterStatus
