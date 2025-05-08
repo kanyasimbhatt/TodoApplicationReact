@@ -5,7 +5,7 @@ import { z } from "zod";
 import { useEffect } from "react";
 import useTask from "../TaskProvider";
 import "./AddEditForm.css";
-import { Task } from "../../types/Tasks/types";
+import { Task } from "../../Types/Tasks/types";
 
 const schema = z.object({
   title: z.string().min(5),

@@ -4,7 +4,7 @@ import "./showTasks.css";
 import { useForm } from "react-hook-form";
 import useTask from "../TaskProvider";
 import FilterTask from "../FilterTasks/FilterTask";
-import { Task, FilterElement } from "../../types/Tasks/types";
+import { Task, FilterElement } from "../../Types/Tasks/types";
 
 export default function ShowTasks() {
   const statusOptions = ["Done", "In Progress", "Todo"];

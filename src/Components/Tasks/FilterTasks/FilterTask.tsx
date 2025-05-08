@@ -1,6 +1,6 @@
 import { UseFormRegister } from "react-hook-form";
 import "./FilterTask.css";
-import { FilterElement } from "../../types/Tasks/types";
+import { FilterElement } from "../../Types/Tasks/types";
 
 export default function FilterTask({
   register,
