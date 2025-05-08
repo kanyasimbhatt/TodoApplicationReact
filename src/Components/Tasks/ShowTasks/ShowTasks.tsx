@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "./showTasks.css";
 import { useForm } from "react-hook-form";
 import useTask from "../TaskProvider";
-import FilterTask from "../FilterTasks/FilterTask";
+import { FilterTask } from "../FilterTasks/FilterTask";
 import { Task, FilterElement } from "../../Types/Tasks/types";
 
-export default function ShowTasks() {
+export const ShowTasks: React.FC = () => {
   const statusOptions = ["Done", "In Progress", "Todo"];
   const { tasks, setTasks } = useTask();
   const { register, watch } = useForm<FilterElement>({
@@ -132,4 +132,4 @@ export default function ShowTasks() {
       </div>
     </>
   );
-}
+};

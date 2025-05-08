@@ -2,11 +2,11 @@ import { UseFormRegister } from "react-hook-form";
 import "./FilterTask.css";
 import { FilterElement } from "../../Types/Tasks/types";
 
-export default function FilterTask({
-  register,
-}: {
+type RegisterType = {
   register: UseFormRegister<FilterElement>;
-}) {
+};
+
+export const FilterTask: React.FC<RegisterType> = ({ register }) => {
   return (
     <>
       <div className="filter-section">
@@ -40,4 +40,4 @@ export default function FilterTask({
       </div>
     </>
   );
-}
+};

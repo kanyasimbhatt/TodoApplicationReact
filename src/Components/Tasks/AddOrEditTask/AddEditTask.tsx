@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import Navbar from "../Navbar/Navbar";
-import AddEditForm from "./AddEditForm";
+import { Navbar } from "../Navbar/Navbar";
+import { AddEditForm } from "./AddEditForm";
 
-export default function AddEditTask() {
+export const AddEditTask: React.FC = () => {
   const { id } = useParams();
   return (
     <div>
@@ -10,4 +10,4 @@ export default function AddEditTask() {
       <AddEditForm taskId={id ?? ""} />
     </div>
   );
-}
+};

@@ -2,7 +2,11 @@ import { useNavigate } from "react-router-dom";
 import navbarLogo from "../../../assets/images-removebg-preview.png";
 import "./Navbar.css";
 
-export default function Navbar({ buttonName }: { buttonName: string }) {
+type ButtonTextType = {
+  buttonName: string;
+};
+
+export const Navbar: React.FC<ButtonTextType> = ({ buttonName }) => {
   const navigate = useNavigate();
   function handleNavbarButtonClick() {
     if (buttonName === "Add Task") {
@@ -22,4 +26,4 @@ export default function Navbar({ buttonName }: { buttonName: string }) {
       </div>
     </nav>
   );
-}
+};

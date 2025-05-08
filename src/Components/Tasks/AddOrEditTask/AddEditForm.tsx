@@ -15,7 +15,11 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>;
 
-export default function AddEditForm({ taskId }: { taskId: string }) {
+type TaskId = {
+  taskId: string;
+};
+
+export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
   const navigate = useNavigate();
   const { tasks, setTasks } = useTask();
   const taskIndex = tasks.findIndex((task: Task) => task.id === taskId);
@@ -118,4 +122,4 @@ export default function AddEditForm({ taskId }: { taskId: string }) {
       </form>
     </div>
   );
-}
+};
