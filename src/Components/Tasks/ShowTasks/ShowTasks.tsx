@@ -47,31 +47,24 @@ export const ShowTasks: React.FC = () => {
     return taskValue.toLowerCase().includes(filterContentValue.toLowerCase());
   }
 
-  function handleTaskEdit(event: React.MouseEvent) {
-    if ("id" in event.target) {
-      navigate(`/add-task/${event.target!.id}`);
-    }
-  }
+  const handleTaskEdit = (id: string) => {
+    navigate(`/add-task/${id}`);
+  };
 
-  function handleTaskDelete(event: React.MouseEvent) {
-    const newFilteredArray = tasks.filter((t: Task) => {
-      if ("id" in event.target && t.id !== event.target.id) {
-        return true;
-      }
-      return false;
-    });
+  const handleTaskDelete = (id: string) => {
+    const newFilteredArray = tasks.filter((t: Task) => t.id !== id);
     setTasks(newFilteredArray);
-  }
+  };
 
-  function handleChangeOnStatus(event: React.ChangeEvent) {
+  const handleChangeOnStatus = (event: React.ChangeEvent, id: string) => {
     const newTasksArray = tasks.map((t: Task) => {
-      if (t.id === event.target.id && "value" in event.target) {
+      if (t.id === id && "value" in event.target) {
         t.status = event.target.value as string;
       }
       return t;
     });
     setTasks(newTasksArray);
-  }
+  };
 
   useEffect(() => {
     localStorage.setItem("tasks-array", JSON.stringify(tasks));
@@ -81,54 +74,53 @@ export const ShowTasks: React.FC = () => {
     <>
       <FilterTask register={register} />
       <div className="show-task">
-        {filteredTasks.length === 0 ? (
+        {filteredTasks.length === 0 && (
           <div className="header-wrapper">
-            {" "}
             <h3>No Tasks yet!</h3>
           </div>
-        ) : (
-          <></>
         )}
-        {filteredTasks.map((task: Task) => (
-          <div className={`card-wrapper ${task.status}`} key={task.id}>
-            <div className="tasks-title">{task.title}</div>
-            <div className="tasks-description">{task.description}</div>
-            <select
-              id={task.id}
-              className="options-select"
-              value={task.status}
-              onChange={handleChangeOnStatus}
-            >
-              <option disabled>{task.status}</option>
-              <option>
-                {statusOptions[0] === task.status
-                  ? statusOptions[1]
-                  : statusOptions[0]}
-              </option>
-              <option>
-                {statusOptions[2] === task.status
-                  ? statusOptions[1]
-                  : statusOptions[2]}
-              </option>
-            </select>
-            <div className="edit-delete-button">
-              <button
-                className="edit-button"
-                id={`${task.id}`}
-                onClick={handleTaskEdit}
+
+        {filteredTasks.length !== 0 &&
+          filteredTasks.map((task: Task) => (
+            <div className={`card-wrapper ${task.status}`} key={task.id}>
+              <div className="tasks-title">{task.title}</div>
+              <div className="tasks-description">{task.description}</div>
+              <select
+                className="options-select"
+                value={task.status}
+                onChange={(event: React.ChangeEvent) =>
+                  handleChangeOnStatus(event, task.id)
+                }
               >
-                Edit
-              </button>
-              <button
-                className="edit-button"
-                id={`${task.id}`}
-                onClick={handleTaskDelete}
-              >
-                Delete
-              </button>
+                <option disabled>{task.status}</option>
+                <option>
+                  {statusOptions[0] === task.status
+                    ? statusOptions[1]
+                    : statusOptions[0]}
+                </option>
+                <option>
+                  {statusOptions[2] === task.status
+                    ? statusOptions[1]
+                    : statusOptions[2]}
+                </option>
+              </select>
+              <div className="edit-delete-button">
+                <button
+                  className="edit-button"
+                  onClick={() => handleTaskEdit(task.id)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="edit-button"
+                  id={`${task.id}`}
+                  onClick={() => handleTaskDelete(task.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </>
   );

@@ -7,6 +7,8 @@ import { useTask } from "../TaskProvider";
 import "./AddEditForm.css";
 import { Task } from "../../Types/Tasks/types";
 
+type TaskStatusType = "Todo" | "In Progress" | "Done";
+
 const schema = z.object({
   title: z.string().min(5),
   description: z.string().min(10),
@@ -27,26 +29,33 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<TaskFormFields>({
     resolver: zodResolver(schema),
   });
 
   const onSubmit: SubmitHandler<TaskFormFields> = (data) => {
-    let allTasks = tasks;
+    let allTasks = [...tasks];
     if (taskId) {
       allTasks[taskIndex] = { ...data, id: taskId };
     } else {
       const id = crypto.randomUUID();
       allTasks = [...allTasks, { ...data, id: id }];
     }
+    localStorage.setItem("tasks-array", JSON.stringify(allTasks));
     setTasks(allTasks);
     navigate("/");
   };
 
   useEffect(() => {
-    localStorage.setItem("tasks-array", JSON.stringify(tasks));
-  }, [tasks]);
+    if (taskId)
+      reset({
+        title: tasks[taskIndex].title,
+        description: tasks[taskIndex].description,
+        status: tasks[taskIndex].status as TaskStatusType,
+      });
+  }, []);
 
   return (
     <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
@@ -60,11 +69,7 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
           type="text"
           className="title input-tag"
           placeholder="Enter title"
-          defaultValue={taskId ? tasks[taskIndex].title : ""}
         />
-        {errors.title && (
-          <div className="error-message">{errors.title.message}</div>
-        )}
       </label>
 
       <label>
@@ -74,7 +79,6 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
           {...register("description")}
           type="text"
           className="description input-tag"
-          defaultValue={taskId ? tasks[taskIndex].description : ""}
           placeholder="Enter Description"
         />
         {errors.description && (
@@ -84,27 +88,16 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
       <label>
         <b>Select Status: </b>
         <br />
-        <select
-          {...register("status")}
-          className="status-select input-tag"
-          defaultValue={taskId ? tasks[taskIndex].status : "Todo"}
-        >
+        <select {...register("status")} className="status-select input-tag">
           <option value={"Todo"}>Todo</option>
 
-          {taskId === "" ? (
-            <option value={"In Progress"} disabled>
-              In Progress
-            </option>
-          ) : (
-            <option value={"In Progress"}>In Progress</option>
-          )}
-          {taskId === "" ? (
-            <option value={"Done"} disabled>
-              Done
-            </option>
-          ) : (
-            <option value={"Done"}>Done</option>
-          )}
+          <option value={"In Progress"} disabled={!taskId}>
+            In Progress
+          </option>
+
+          <option value={"Done"} disabled={!taskId}>
+            Done
+          </option>
         </select>
       </label>
 
