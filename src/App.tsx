@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ViewAllTaskWrapper } from "./Components/Tasks/ViewAllTasks/ViewAllTasks";
 import { AddEditTaskWrapper } from "./Components/Tasks/AddOrEditTask/AddEditTask";
 import { NotFound } from "./Components/Tasks/NotFound/NotFound";
+
 function App() {
   return (
     <>
