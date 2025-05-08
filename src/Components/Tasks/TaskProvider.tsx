@@ -23,11 +23,9 @@ export function TaskProvider({ children }: ChildrenType) {
     JSON.parse(localStorage.getItem("tasks-array") as string),
   );
   return (
-    <div>
-      <TaskContext.Provider value={{ tasks, setTasks }}>
-        {children}
-      </TaskContext.Provider>
-    </div>
+    <TaskContext.Provider value={{ tasks, setTasks }}>
+      {children}
+    </TaskContext.Provider>
   );
 }
 

@@ -1,13 +1,22 @@
 import { useParams } from "react-router-dom";
 import { Navbar } from "../Navbar/Navbar";
 import { AddEditForm } from "./AddEditForm";
+import { TaskProvider } from "../TaskProvider";
 
-export const AddEditTask: React.FC = () => {
+export const AddEditTaskWrapper: React.FC = () => {
+  return (
+    <TaskProvider>
+      <AddEditTask />
+    </TaskProvider>
+  );
+};
+
+const AddEditTask: React.FC = () => {
   const { id } = useParams();
   return (
-    <div>
+    <TaskProvider>
       <Navbar buttonName={"View All Task"} />
       <AddEditForm taskId={id ?? ""} />
-    </div>
+    </TaskProvider>
   );
 };
