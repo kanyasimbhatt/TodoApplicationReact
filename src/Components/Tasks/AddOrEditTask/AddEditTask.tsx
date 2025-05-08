@@ -14,9 +14,9 @@ export const AddEditTaskWrapper: React.FC = () => {
 const AddEditTask: React.FC = () => {
   const { id } = useParams();
   return (
-    <TaskProvider>
+    <>
       <Navbar buttonName={"View All Task"} />
       <AddEditForm taskId={id ?? ""} />
-    </TaskProvider>
+    </>
   );
 };
