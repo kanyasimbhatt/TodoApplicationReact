@@ -49,75 +49,71 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
   }, [tasks]);
 
   return (
-    <div>
-      <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="form-title">
-          {taskId === "" ? `Add Task` : `Edit Task`}
-        </h2>
+    <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="form-title">{taskId === "" ? `Add Task` : `Edit Task`}</h2>
 
-        <label>
-          <b>Enter Title: </b>
-          <br />
-          <input
-            {...register("title")}
-            type="text"
-            className="title input-tag"
-            placeholder="Enter title"
-            defaultValue={taskId ? tasks[taskIndex].title : ""}
-          />
-          {errors.title && (
-            <div className="error-message">{errors.title.message}</div>
-          )}
-        </label>
-
-        <label>
-          <b> Enter Description:</b>
-          <br />
-          <input
-            {...register("description")}
-            type="text"
-            className="description input-tag"
-            defaultValue={taskId ? tasks[taskIndex].description : ""}
-            placeholder="Enter Description"
-          />
-          {errors.description && (
-            <div className="error-message">{errors.description.message}</div>
-          )}
-        </label>
-        <label>
-          <b>Select Status: </b>
-          <br />
-          <select
-            {...register("status")}
-            className="status-select input-tag"
-            defaultValue={taskId ? tasks[taskIndex].status : "Todo"}
-          >
-            <option value={"Todo"}>Todo</option>
-
-            {taskId === "" ? (
-              <option value={"In Progress"} disabled>
-                In Progress
-              </option>
-            ) : (
-              <option value={"In Progress"}>In Progress</option>
-            )}
-            {taskId === "" ? (
-              <option value={"Done"} disabled>
-                Done
-              </option>
-            ) : (
-              <option value={"Done"}>Done</option>
-            )}
-          </select>
-        </label>
-
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Loading..." : taskId === "" ? "Add" : "Edit"}
-        </button>
-        {errors.root && (
-          <div className="error-message">{errors.root.message}</div>
+      <label>
+        <b>Enter Title: </b>
+        <br />
+        <input
+          {...register("title")}
+          type="text"
+          className="title input-tag"
+          placeholder="Enter title"
+          defaultValue={taskId ? tasks[taskIndex].title : ""}
+        />
+        {errors.title && (
+          <div className="error-message">{errors.title.message}</div>
         )}
-      </form>
-    </div>
+      </label>
+
+      <label>
+        <b> Enter Description:</b>
+        <br />
+        <input
+          {...register("description")}
+          type="text"
+          className="description input-tag"
+          defaultValue={taskId ? tasks[taskIndex].description : ""}
+          placeholder="Enter Description"
+        />
+        {errors.description && (
+          <div className="error-message">{errors.description.message}</div>
+        )}
+      </label>
+      <label>
+        <b>Select Status: </b>
+        <br />
+        <select
+          {...register("status")}
+          className="status-select input-tag"
+          defaultValue={taskId ? tasks[taskIndex].status : "Todo"}
+        >
+          <option value={"Todo"}>Todo</option>
+
+          {taskId === "" ? (
+            <option value={"In Progress"} disabled>
+              In Progress
+            </option>
+          ) : (
+            <option value={"In Progress"}>In Progress</option>
+          )}
+          {taskId === "" ? (
+            <option value={"Done"} disabled>
+              Done
+            </option>
+          ) : (
+            <option value={"Done"}>Done</option>
+          )}
+        </select>
+      </label>
+
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Loading..." : taskId === "" ? "Add" : "Edit"}
+      </button>
+      {errors.root && (
+        <div className="error-message">{errors.root.message}</div>
+      )}
+    </form>
   );
 };
