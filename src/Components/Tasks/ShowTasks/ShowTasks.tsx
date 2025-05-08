@@ -113,7 +113,6 @@ export const ShowTasks: React.FC = () => {
                 </button>
                 <button
                   className="edit-button"
-                  id={`${task.id}`}
                   onClick={() => handleTaskDelete(task.id)}
                 >
                   Delete
