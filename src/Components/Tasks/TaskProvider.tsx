@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Task } from "../../types/TaskType/types";
+import { Task } from "../types/Tasks/types";
 import { createContext, useContext } from "react";
 
 export type TasksArrayType = {

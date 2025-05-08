@@ -1,10 +1,10 @@
-import "./showTasks.css";
-import useTask from "../context/TaskContext/TaskProvider";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import FilterTask from "../FilterTasks/FilterTask";
+import "./showTasks.css";
 import { useForm } from "react-hook-form";
-import { Task, FilterElement } from "../types/TaskType/types";
+import useTask from "../TaskProvider";
+import FilterTask from "../FilterTasks/FilterTask";
+import { Task, FilterElement } from "../../types/Tasks/types";
 
 export default function ShowTasks() {
   const statusOptions = ["Done", "In Progress", "Todo"];

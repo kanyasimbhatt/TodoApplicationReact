@@ -2,10 +2,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import useTask from "../context/TaskContext/TaskProvider";
-import "./AddEditForm.css";
-import { Task } from "../types/TaskType/types";
 import { useEffect } from "react";
+import useTask from "../TaskProvider";
+import "./AddEditForm.css";
+import { Task } from "../../types/Tasks/types";
 
 const schema = z.object({
   title: z.string().min(5),
