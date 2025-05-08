@@ -13,7 +13,7 @@ const schema = z.object({
   status: z.enum(["Todo", "In Progress", "Done"]),
 });
 
-type FormFields = z.infer<typeof schema>;
+type TaskFormFields = z.infer<typeof schema>;
 
 type TaskId = {
   taskId: string;
@@ -28,11 +28,11 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormFields>({
+  } = useForm<TaskFormFields>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
+  const onSubmit: SubmitHandler<TaskFormFields> = (data) => {
     let allTasks = tasks;
     if (taskId) {
       allTasks[taskIndex] = { ...data, id: taskId };
@@ -56,7 +56,6 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
         </h2>
 
         <label>
-          {" "}
           <b>Enter Title: </b>
           <br />
           <input
@@ -72,7 +71,6 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
         </label>
 
         <label>
-          {" "}
           <b> Enter Description:</b>
           <br />
           <input
