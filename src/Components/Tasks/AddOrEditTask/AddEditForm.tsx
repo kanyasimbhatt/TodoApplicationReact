@@ -16,7 +16,14 @@ const schema = z.object({
   status: z.enum(["Todo", "In Progress", "Done"]),
 });
 
-type TaskFormFields = z.infer<typeof schema>;
+type TaskFormFields = z.infer<typeof schema> & { id?: string };
+
+// interface TaskFormFields {
+//   id: string;
+//   title: string;
+//   description: string;
+//   status: TaskStatusType;
+// }
 
 export const AddEditForm: React.FC = () => {
   const { taskId } = useParams();
@@ -25,6 +32,7 @@ export const AddEditForm: React.FC = () => {
   const taskData = tasks.find((task: Task) => task.id === taskId);
   const taskIndex = tasks.findIndex((task: Task) => task.id === taskId);
   const defaultValue = {
+    id: "",
     title: "",
     description: "",
     status: "Todo" as TaskStatusType,
@@ -55,12 +63,7 @@ export const AddEditForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (taskData)
-      reset({
-        title: taskData.title,
-        description: taskData.description,
-        status: taskData.status as TaskStatusType,
-      });
+    if (taskData) reset({ ...taskData } as TaskFormFields);
   }, []);
 
   return (
