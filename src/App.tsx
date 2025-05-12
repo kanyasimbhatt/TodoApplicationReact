@@ -9,7 +9,10 @@ function App() {
       <Routes>
         <Route path="/" element={<ViewAllTaskWrapper />}></Route>
         <Route path="/add-task" element={<AddEditTaskWrapper />}></Route>
-        <Route path="/edit-task/:id" element={<AddEditTaskWrapper />}></Route>
+        <Route
+          path="/edit-task/:taskId"
+          element={<AddEditTaskWrapper />}
+        ></Route>
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </Router>

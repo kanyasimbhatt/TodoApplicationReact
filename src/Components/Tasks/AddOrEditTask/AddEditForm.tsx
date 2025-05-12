@@ -18,14 +18,21 @@ const schema = z.object({
 
 type TaskFormFields = z.infer<typeof schema>;
 
+const defaultIdType = {
+  taskId: "",
+};
+
 export const AddEditForm: React.FC = () => {
-  let { id } = useParams();
-  if (!id) {
-    id = "";
-  }
+  const { taskId } = useParams() || defaultIdType;
   const navigate = useNavigate();
   const { tasks, setTasks } = useTask();
-  const taskIndex = tasks.findIndex((task: Task) => task.id === id);
+  const taskData = tasks.find((task: Task) => task.id === taskId);
+  const taskIndex = tasks.findIndex((task: Task) => task.id === taskId);
+  const defaultValue = {
+    title: "",
+    description: "",
+    status: "Todo" as TaskStatusType,
+  };
 
   const {
     register,
@@ -34,11 +41,13 @@ export const AddEditForm: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<TaskFormFields>({
     resolver: zodResolver(schema),
+    mode: "onChange",
+    defaultValues: defaultValue,
   });
 
   const onSubmit: SubmitHandler<TaskFormFields> = (data) => {
     let allTasks = [...tasks];
-    if (id) {
+    if (taskData) {
       allTasks[taskIndex] = { ...allTasks[taskIndex], ...data };
     } else {
       const id = crypto.randomUUID();
@@ -50,17 +59,17 @@ export const AddEditForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (id)
+    if (taskData)
       reset({
-        title: tasks[taskIndex].title,
-        description: tasks[taskIndex].description,
-        status: tasks[taskIndex].status as TaskStatusType,
+        title: taskData.title,
+        description: taskData.description,
+        status: taskData.status as TaskStatusType,
       });
   }, []);
 
   return (
     <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="form-title">{id === "" ? `Add Task` : `Edit Task`}</h2>
+      <h2 className="form-title">{!taskData ? `Add Task` : `Edit Task`}</h2>
 
       <label>
         <b>Enter Title: </b>
@@ -71,6 +80,9 @@ export const AddEditForm: React.FC = () => {
           className="title input-tag"
           placeholder="Enter title"
         />
+        {errors.title && (
+          <div className="error-message">{errors.title.message}</div>
+        )}
       </label>
 
       <label>
@@ -92,18 +104,18 @@ export const AddEditForm: React.FC = () => {
         <select {...register("status")} className="status-select input-tag">
           <option value={"Todo"}>Todo</option>
 
-          <option value={"In Progress"} disabled={!id}>
+          <option value={"In Progress"} disabled={!taskData}>
             In Progress
           </option>
 
-          <option value={"Done"} disabled={!id}>
+          <option value={"Done"} disabled={!taskData}>
             Done
           </option>
         </select>
       </label>
 
       <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Loading..." : id === "" ? "Add" : "Edit"}
+        {isSubmitting ? "Loading..." : !taskData ? "Add" : "Edit"}
       </button>
       {errors.root && (
         <div className="error-message">{errors.root.message}</div>
