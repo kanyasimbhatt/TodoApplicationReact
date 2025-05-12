@@ -18,12 +18,8 @@ const schema = z.object({
 
 type TaskFormFields = z.infer<typeof schema>;
 
-const defaultIdType = {
-  taskId: "",
-};
-
 export const AddEditForm: React.FC = () => {
-  const { taskId } = useParams() || defaultIdType;
+  const { taskId } = useParams();
   const navigate = useNavigate();
   const { tasks, setTasks } = useTask();
   const taskData = tasks.find((task: Task) => task.id === taskId);
