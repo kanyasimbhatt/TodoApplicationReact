@@ -1,5 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useEffect } from "react";
@@ -17,14 +18,14 @@ const schema = z.object({
 
 type TaskFormFields = z.infer<typeof schema>;
 
-type TaskId = {
-  taskId: string;
-};
-
-export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
+export const AddEditForm: React.FC = () => {
+  let { id } = useParams();
+  if (!id) {
+    id = "";
+  }
   const navigate = useNavigate();
   const { tasks, setTasks } = useTask();
-  const taskIndex = tasks.findIndex((task: Task) => task.id === taskId);
+  const taskIndex = tasks.findIndex((task: Task) => task.id === id);
 
   const {
     register,
@@ -37,11 +38,11 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
 
   const onSubmit: SubmitHandler<TaskFormFields> = (data) => {
     let allTasks = [...tasks];
-    if (taskId) {
-      allTasks[taskIndex] = { ...data, id: taskId };
+    if (id) {
+      allTasks[taskIndex] = { ...allTasks[taskIndex], ...data };
     } else {
       const id = crypto.randomUUID();
-      allTasks = [...allTasks, { ...data, id: id }];
+      allTasks = [...allTasks, { ...data, id }];
     }
     localStorage.setItem("tasks-array", JSON.stringify(allTasks));
     setTasks(allTasks);
@@ -49,7 +50,7 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
   };
 
   useEffect(() => {
-    if (taskId)
+    if (id)
       reset({
         title: tasks[taskIndex].title,
         description: tasks[taskIndex].description,
@@ -59,7 +60,7 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
 
   return (
     <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="form-title">{taskId === "" ? `Add Task` : `Edit Task`}</h2>
+      <h2 className="form-title">{id === "" ? `Add Task` : `Edit Task`}</h2>
 
       <label>
         <b>Enter Title: </b>
@@ -91,18 +92,18 @@ export const AddEditForm: React.FC<TaskId> = ({ taskId }) => {
         <select {...register("status")} className="status-select input-tag">
           <option value={"Todo"}>Todo</option>
 
-          <option value={"In Progress"} disabled={!taskId}>
+          <option value={"In Progress"} disabled={!id}>
             In Progress
           </option>
 
-          <option value={"Done"} disabled={!taskId}>
+          <option value={"Done"} disabled={!id}>
             Done
           </option>
         </select>
       </label>
 
       <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Loading..." : taskId === "" ? "Add" : "Edit"}
+        {isSubmitting ? "Loading..." : id === "" ? "Add" : "Edit"}
       </button>
       {errors.root && (
         <div className="error-message">{errors.root.message}</div>

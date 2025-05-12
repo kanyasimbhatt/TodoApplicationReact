@@ -48,7 +48,7 @@ export const ShowTasks: React.FC = () => {
   }
 
   const handleTaskEdit = (id: string) => {
-    navigate(`/add-task/${id}`);
+    navigate(`/edit-task/${id}`);
   };
 
   const handleTaskDelete = (id: string) => {
