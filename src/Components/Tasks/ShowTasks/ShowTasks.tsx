@@ -4,7 +4,7 @@ import "./showTasks.css";
 import { useForm } from "react-hook-form";
 import { useTask } from "../TaskProvider";
 import { FilterTask } from "../FilterTasks/FilterTask";
-import { Task, FilterElement } from "../../Types/Tasks/types";
+import { Task, FilterElement, TodoStatus } from "../../Types/Tasks/types";
 
 export const ShowTasks: React.FC = () => {
   const statusOptions = ["Done", "In Progress", "Todo"];
@@ -59,7 +59,7 @@ export const ShowTasks: React.FC = () => {
   const handleChangeOnStatus = (event: React.ChangeEvent, id: string) => {
     const newTasksArray = tasks.map((t: Task) => {
       if (t.id === id && "value" in event.target) {
-        t.status = event.target.value as string;
+        t.status = event.target.value as TodoStatus;
       }
       return t;
     });

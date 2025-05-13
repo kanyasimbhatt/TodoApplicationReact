@@ -7,23 +7,16 @@ import { useEffect } from "react";
 import { useTask } from "../TaskProvider";
 import "./AddEditForm.css";
 import { Task } from "../../Types/Tasks/types";
-
-type TaskStatusType = "Todo" | "In Progress" | "Done";
+import { TodoStatus } from "../../Types/Tasks/types";
 
 const schema = z.object({
+  id: z.string(),
   title: z.string().min(5),
   description: z.string().min(10),
-  status: z.enum(["Todo", "In Progress", "Done"]),
+  status: z.enum([TodoStatus.TODO, TodoStatus.INPROGRESS, TodoStatus.DONE]),
 });
 
-type TaskFormFields = z.infer<typeof schema> & { id?: string };
-
-// interface TaskFormFields {
-//   id: string;
-//   title: string;
-//   description: string;
-//   status: TaskStatusType;
-// }
+type TaskFormFields = z.infer<typeof schema>;
 
 export const AddEditForm: React.FC = () => {
   const { taskId } = useParams();
@@ -35,7 +28,7 @@ export const AddEditForm: React.FC = () => {
     id: "",
     title: "",
     description: "",
-    status: "Todo" as TaskStatusType,
+    status: TodoStatus.TODO,
   };
 
   const {
@@ -52,7 +45,7 @@ export const AddEditForm: React.FC = () => {
   const onSubmit: SubmitHandler<TaskFormFields> = (data) => {
     let allTasks = [...tasks];
     if (taskData) {
-      allTasks[taskIndex] = { ...allTasks[taskIndex], ...data };
+      allTasks[taskIndex] = { ...data };
     } else {
       const id = crypto.randomUUID();
       allTasks = [...allTasks, { ...data, id }];
@@ -63,7 +56,7 @@ export const AddEditForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (taskData) reset({ ...taskData } as TaskFormFields);
+    if (taskData) reset({ ...taskData });
   }, []);
 
   return (

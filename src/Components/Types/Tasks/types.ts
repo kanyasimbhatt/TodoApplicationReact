@@ -2,7 +2,7 @@ export type Task = {
   id: string;
   title: string;
   description: string;
-  status: string;
+  status: TodoStatus;
 };
 
 export type FilterElement = {
@@ -11,3 +11,9 @@ export type FilterElement = {
   searchByBoth: string;
   filterStatus: string;
 };
+
+export enum TodoStatus {
+  TODO = "Todo",
+  INPROGRESS = "In Progress",
+  DONE = "Done",
+}
