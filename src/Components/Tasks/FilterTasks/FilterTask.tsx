@@ -10,7 +10,7 @@ type RegisterType = {
 export const FilterTask: React.FC<RegisterType> = ({ register }) => {
   const { darkMode } = useDarkMode();
   return (
-    <div className="filter-section">
+    <div className={darkMode ? "filter-section" : "filter-section-light"}>
       <input
         type="text"
         {...register("searchByTitle")}
