@@ -8,6 +8,7 @@ import { useTask } from "../TaskProvider";
 import "./AddEditForm.css";
 import { Task } from "../../Types/Tasks/types";
 import { TodoStatus } from "../../Types/Tasks/types";
+import { useDarkMode } from "../Navbar/DarkModeProvider";
 
 const schema = z.object({
   id: z.string(),
@@ -20,6 +21,7 @@ type TaskFormFields = z.infer<typeof schema>;
 
 export const AddEditForm: React.FC = () => {
   const { taskId } = useParams();
+  const { darkMode } = useDarkMode();
   const navigate = useNavigate();
   const { tasks, setTasks } = useTask();
   const taskData = tasks.find((task: Task) => task.id === taskId);
@@ -60,7 +62,10 @@ export const AddEditForm: React.FC = () => {
   }, []);
 
   return (
-    <form className="add-edit-form" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className={darkMode ? "add-edit-form" : "add-edit-form-light"}
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <h2 className="form-title">{!taskData ? `Add Task` : `Edit Task`}</h2>
 
       <label>
@@ -69,7 +74,7 @@ export const AddEditForm: React.FC = () => {
         <input
           {...register("title")}
           type="text"
-          className="title input-tag"
+          className={darkMode ? "title input-tag" : "title input-light"}
           placeholder="Enter title"
         />
         {errors.title && (
@@ -83,7 +88,7 @@ export const AddEditForm: React.FC = () => {
         <input
           {...register("description")}
           type="text"
-          className="description input-tag"
+          className={darkMode ? "title input-tag" : "title input-light"}
           placeholder="Enter Description"
         />
         {errors.description && (
@@ -93,7 +98,12 @@ export const AddEditForm: React.FC = () => {
       <label>
         <b>Select Status: </b>
         <br />
-        <select {...register("status")} className="status-select input-tag">
+        <select
+          {...register("status")}
+          className={
+            darkMode ? "status-select input-tag" : "status-select input-light"
+          }
+        >
           <option value={"Todo"}>Todo</option>
 
           <option value={"In Progress"} disabled={!taskData}>
