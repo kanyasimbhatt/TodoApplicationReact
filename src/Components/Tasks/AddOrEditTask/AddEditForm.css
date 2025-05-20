@@ -12,7 +12,9 @@
 }
 
 .add-edit-form-light {
-  background-color: #9e9e89;
+  background-color: transparent;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  color: black;
   max-width: 100%;
   padding: 0 30px 20px 30px;
   display: flex;
@@ -42,6 +44,7 @@
 .input-light {
   height: 50px;
   min-width: 80vw;
+  width: 100%;
   box-sizing: border-box;
   background-color: transparent;
   border: 2px solid rgb(133, 133, 121);

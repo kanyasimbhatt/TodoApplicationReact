@@ -25,7 +25,7 @@ export const Navbar: React.FC<ButtonTextType> = ({ buttonName }) => {
   }
 
   return (
-    <nav className="navbar-div">
+    <nav className={darkMode ? "navbar-div" : "navbar-div-light"}>
       <div className="navbar-logo-title">
         <img src={navbarLogo} alt="navbar logo" className="navbar-logo" />
         <h2>Manager</h2>

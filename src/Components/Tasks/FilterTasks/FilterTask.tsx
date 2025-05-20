@@ -14,18 +14,18 @@ export const FilterTask: React.FC<RegisterType> = ({ register }) => {
       <input
         type="text"
         {...register("searchByTitle")}
-        id={darkMode ? "input" : "input-light"}
+        className={darkMode ? "input" : "input-light-filter"}
         placeholder="Search By Title"
       />
       <input
         type="text"
         {...register("searchByDescription")}
-        id={darkMode ? "input" : "input-light"}
+        className={darkMode ? "input" : "input-light-filter"}
         placeholder="Search By Description"
       />
       <input
         type="text"
-        id={darkMode ? "input" : "input-light"}
+        className={darkMode ? "input" : "input-light-filter"}
         {...register("searchByBoth")}
         placeholder="Search By Title and Description"
       />
@@ -33,7 +33,7 @@ export const FilterTask: React.FC<RegisterType> = ({ register }) => {
         Filter By Status:
         <select
           {...register("filterStatus")}
-          id={darkMode ? "input" : "input-light"}
+          className={darkMode ? "input" : "input-light-filter"}
         >
           <option value={""}>All Task</option>
           <option value={`Todo`}>Todo</option>
