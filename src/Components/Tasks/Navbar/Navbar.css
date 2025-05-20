@@ -16,9 +16,24 @@
   gap: 10px;
 }
 
+.navbar-button {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
 .navbar-logo {
   height: 60px;
   width: 60px;
+}
+
+.navbar-logo-dl {
+  height: 28px;
+  width: 28px;
+}
+
+.dark-light-button {
+  padding: 3px 7px 3px 7px;
 }
 
 @media screen and (max-width: 336px) {

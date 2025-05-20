@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import navbarLogo from "../../../assets/images-removebg-preview.png";
+import SunLogo from "../../../assets/sun.svg";
+import MoonLogo from "../../../assets/moon.svg";
 import "./Navbar.css";
+import { useDarkMode } from "./DarkModeProvider";
 
 type ButtonTextType = {
   buttonName: string;
@@ -8,6 +11,7 @@ type ButtonTextType = {
 
 export const Navbar: React.FC<ButtonTextType> = ({ buttonName }) => {
   const navigate = useNavigate();
+  const { darkMode, setDarkMode } = useDarkMode();
   function handleNavbarButtonClick() {
     if (buttonName === "Add Task") {
       navigate(`/add-task`);
@@ -15,6 +19,11 @@ export const Navbar: React.FC<ButtonTextType> = ({ buttonName }) => {
       navigate("/");
     }
   }
+
+  function handleClickOnMode() {
+    setDarkMode((darkMode: boolean) => !darkMode);
+  }
+
   return (
     <nav className="navbar-div">
       <div className="navbar-logo-title">
@@ -23,6 +32,12 @@ export const Navbar: React.FC<ButtonTextType> = ({ buttonName }) => {
       </div>
       <div className="navbar-button">
         <button onClick={handleNavbarButtonClick}>{buttonName}</button>
+        <button className="dark-light-button" onClick={handleClickOnMode}>
+          <img
+            src={!darkMode ? SunLogo : MoonLogo}
+            className="navbar-logo-dl"
+          />
+        </button>
       </div>
     </nav>
   );

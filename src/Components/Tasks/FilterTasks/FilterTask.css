@@ -15,6 +15,19 @@
   padding-left: 4px;
 }
 
+#input-light {
+  background-color: transparent;
+  border: 1px solid rgb(85, 85, 77);
+  color: rgb(66, 66, 61);
+  height: 30px;
+  border-radius: 6px;
+  padding-left: 4px;
+}
+
+#input-light::placeholder {
+  color: rgb(66, 66, 61);
+}
+
 .status-filter {
   display: flex;
   gap: 10px;

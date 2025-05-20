@@ -1,10 +1,14 @@
+.light-styles {
+  min-width: calc(100vh - 70px - 30px - 70px);
+}
+
 .show-task {
   display: flex;
   flex: 1;
   flex-wrap: wrap;
   gap: 30px;
   padding: 0 90px 0 90px;
-  margin-top: 40px;
+  margin-top: 60px;
 }
 
 .card-wrapper {
@@ -61,6 +65,8 @@
   justify-content: center;
   align-items: center;
   width: 230px;
+  white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
